@@ -1,0 +1,33 @@
+{% load static i18n app %}{% get_current_language as language %}<!DOCTYPE html>
+<html lang="{{ language }}">
+<head>
+    <title>{% trans "Feed Muncher" %}{% block head_title %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'stylesheets/feed_muncher.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <header class="row">
+        <h1 class="col-xs-12">{% trans "Feed Muncher" %}{% block header_title %}{% endblock %}</h1>
+    </header>
+
+    {% if messages %}
+    <section class="row">
+        {% for message in messages %}
+        <p class="alert alert-{{ message.tags|message_tag_to_bootstrap_alert }}">{{ message|safe }}</p>
+        {% endfor %}
+    </section>
+    {% endif %}
+
+    <section class="row">
+        {% block content %}{% endblock %}
+    </section>
+</div>
+
+{% block body_end %}{% endblock %}
+</body>
+</html>

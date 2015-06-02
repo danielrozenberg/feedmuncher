@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block head_title %} — {% blocktrans %}delete feed {{ munched_feed }}{% endblocktrans %}{% endblock %}
+
+{% block header_title %} — {% blocktrans %}delete feed {{ munched_feed }}{% endblocktrans %}{% endblock %}
+
+{% block content %}
+    <p class="col-xs-12 alert alert-danger">{% blocktrans %}Are you sure you want to delete the feed {{ munched_feed }}?{% endblocktrans %}</p>
+
+    <form action="{% url 'delete_feed' slug=munched_feed.slug %}" method="post" id="form" class="col-xs-12 form-inline">
+        {% csrf_token %}
+
+        <div class="btn-group pull-right">
+            <a href="{% url 'list_feeds' %}" class="btn btn-default"><i class="fa fa-undo"></i> {% trans "Cancel" %}</a>
+            <button type="submit" name="delete" value="delete" class="btn btn-danger"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static i18n widget_tweaks %}
+
+{% block head_title %} — {% if munched_feed %}{% blocktrans %}edit feed {{ munched_feed }}{% endblocktrans %}{% else %}{% trans "new feed" %}{% endif %}{% endblock %}
+
+{% block header_title %} — {% if munched_feed %}{% blocktrans %}edit feed {{ munched_feed }}{% endblocktrans %}{% else %}{% trans "new feed" %}{% endif %}{% endblock %}
+
+{% block content %}
+    <form action="{% if munched_feed %}{% url 'edit_feed' slug=slug %}{% else %}{% url 'new_feed' %}{% endif %}" method="post" id="form" class="col-xs-12 form-horizontal">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+
+        <section class="col-md-6">
+            <h2 class="col-xs-12">{% trans "Munch a feed!" %}</h2>
+
+            <div class="form-group required">
+                <label for="source_url" class="col-sm-3 control-label">{% trans "Feed source URL" %}</label>
+
+                <div class="col-sm-9">
+                    {{ form.source_url|attr:'id:source_url'|attr:'autofocus'|attr:'required'|attr:'placeholder:https://example.com/feed'|attr:'pattern:https?://.+'|attr:'tabindex:1'|add_class:'form-control' }}
+
+                    <p class="help-block">{% trans "The URL of the feed that you want to munch." %}</p>
+
+                    {% if form.source_url.errors %}<div class="alert alert-danger">{{ form.source_url.errors }}</div>{% endif %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="extract_css_selector" class="col-sm-3 control-label">{% trans "CSS selector to extract" %}</label>
+
+                <div class="col-sm-9">
+                    {{ form.extract_css_selector|attr:'id:extract_css_selector'|attr:'placeholder:#article div.content'|attr:'tabindex:2'|add_class:'form-control' }}
+
+                    <p class="help-block">{% trans "A CSS selector to match inside the content page. Multiple matches will be concatenated together. Defaults to “<code>body</code>”" %}</p>
+
+                    {% if form.extract_css_selector.errors %}<div class="alert alert-danger">{{ form.extract_css_selector.errors }}</div>{% endif %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="title_regex" class="col-sm-3 control-label">{% trans "Regex filter for the title" %}</label>
+
+                <div class="col-sm-9">
+                    {% trans 'placeholder:^News\s+Post' as placeholder_news_post %}
+                    {{ form.title_regex|attr:'id:title_regex'|attr:placeholder_news_post|attr:'tabindex:3'|add_class:'form-control' }}
+
+                    <p class="help-block">{% trans "A regular expression to try to match against the title. Only matched items will show up in output feed." %}</p>
+
+                    {% if form.title_regex.errors %}<div class="alert alert-danger">{{ form.title_regex.errors }}</div>{% endif %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="content_regex" class="col-sm-3 control-label">{% trans "Regex filter for the content" %}</label>
+
+                <div class="col-sm-9">
+                    {% trans 'placeholder:news.*feeds?' as placeholder_news_feeds %}
+                    {{ form.content_regex|attr:'id:content_regex'|attr:placeholder_news_feeds|attr:'tabindex:4'|add_class:'form-control' }}
+
+                    <p class="help-block">{% trans "A regular expression to try to match against the content. Only matched items will show up in output feed, however the matched part does not have to be inside the extracted part." %}</p>
+
+                    {% if form.content_regex.errors %}<div class="alert alert-danger">{{ form.content_regex.errors }}</div>{% endif %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <label for="ignore_bozo" class="control-label">
+                        {{ form.ignore_bozo|attr:'id:ignore_bozo'|attr:'tabindex:5' }}
+                        {% trans "Try to ignore errors" %}
+                    </label>
+
+                    <p class="help-block">{% trans "EXPERIMENTAL. Checking this box will cause the server to try to work around errors in the source feed, but might also cause things to burn." %}</p>
+
+                    {% if form.ignore_bozo.errors %}<div class="alert alert-danger">{{ form.ignore_bozo.errors }}</div>{% endif %}
+                </div>
+            </div>
+
+            <button type="submit" tabindex="6" class="btn btn-primary col-sm-offset-3" id="preview_button">
+                <i class="fa fa-cutlery"></i> {% trans "Preview" %}
+            </button>
+        </section>
+
+        <section id="munched_section" class="col-md-6 munched-disabled">
+            <h2 class="col-xs-12">{% trans "Munched Feed" %} <i id="preview_status_icon" class="fa"></i></h2>
+
+            <div class="form-group">
+                <iframe name="preview" id="preview" class="col-xs-12"></iframe>
+            </div>
+
+            <div class="form-group">
+                <label for="slug" class="col-sm-2">{% trans "Name" %}</label>
+
+                <div class="col-sm-10">
+                    {% trans 'placeholder:my-munched-feed' as placeholder_my_munched_feed %}
+                    {{ form.slug|attr:'id:slug'|attr:'disabled'|attr:placeholder_my_munched_feed|attr:'tabindex:7'|add_class:'form-control' }}
+
+                    <p class="help-block">{% trans "Once you are satisfied with the results, give this feed a machine name and click to save." %}</p>
+
+                    {% if form.slug.errors %}<div class="alert alert-danger">{{ form.slug.errors }}</div>{% endif %}
+                </div>
+            </div>
+
+            <button disabled name="save" type="submit" tabindex="8" class="col-sm-offset-2 btn btn-primary" id="save">
+                <i class="fa fa-pencil-square"></i> {% trans "Save" %}
+            </button>
+        </section>
+    </form>
+{% endblock %}
+
+{% block body_end %}
+<input type="hidden" id="preview_action_url" value="{% url 'preview_feed' %}">
+<script src="{% static 'scripts/preview.js' %}"></script>
+{% endblock %}

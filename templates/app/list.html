@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block head_title %} — {% blocktrans %}{{ user }}'s feeds{% endblocktrans %}{% endblock %}
+
+{% block header_title %} — {% blocktrans %}{{ user }}'s feeds{% endblocktrans %}{% endblock %}
+
+{% block content %}
+    <table class="col-xs-12 table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>{% trans "Slug" %}</th>
+                <th>{% trans "Source URL" %}</th>
+                <th>{% trans "Last updated" %}</th>
+                <th>{% trans "Actions" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for munched_feed in munched_feeds %}
+            <tr>
+                <td>{{ munched_feed.slug }}</td>
+                <td>{{ munched_feed.source_url|urlizetrunc:60 }}</td>
+                <td>
+                    {% if munched_feed.last_updated %}
+                    {{ munched_feed.last_updated|timesince }}
+                    {% else %}
+                    {% trans "Never" %}
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <a href="{% url 'serve_feed' user=user slug=munched_feed.slug %}" class="btn btn-primary"><i class="fa fa-rss"></i> {% trans "Serve" %}</a>
+                        <a href="{% url 'edit_feed' slug=munched_feed.slug %}" class="btn btn-default"><i class="fa fa-pencil"></i> {% trans "Edit" %}</a>
+                        <a href="{% url 'update_feed' slug=munched_feed.slug %}" class="btn btn-default"><i class="fa fa-refresh"></i> {% trans "Update" %}</a>
+                        <a href="{% url 'delete_feed' slug=munched_feed.slug %}" class="btn btn-danger"><i class="fa fa-trash"></i> {% trans "Remove" %}</a>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="warning">{% trans "You have munched no feeds…" %}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="3"></td>
+                <td>
+                    <div class="btn-group">
+                        <a href="{% url 'new_feed' %}" class="btn btn-primary"><i class="fa fa-pencil"></i> {% trans "Munch a new feed" %}</a>
+                        <a href="{% url 'logout' %}" class="btn btn-default"><i class="fa fa-sign-out"></i> {% trans "Sign out" %}</a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

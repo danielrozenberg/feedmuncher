@@ -1,0 +1,38 @@
+.form-group.required label:after {
+    content: '*';
+    color: red;
+    font-size: 10px;
+    vertical-align: super;
+}
+
+#munched_section {
+    transition: filter 0.2s, opacity 0.2s;
+    -webkit-transition: -webkit-filter 0.2s, opacity 0.2s;
+}
+
+.munched-disabled, .munched-loading {
+    opacity: 0.5;
+    filter: blur(1px);
+    -webkit-filter: blur(1px);
+}
+
+#munched_url {
+    cursor: default;
+    background-color: #ffffff;
+}
+
+#munched_url_state {
+    cursor: default;
+}
+
+.munched-loaded #munched_url,
+.munched-loaded #munched_url_state {
+    cursor: pointer;
+}
+
+#preview {
+    background: repeating-linear-gradient(-45deg, #f0f0f0, #f0f0f0 10px, #f8f8f8 10px, #f8f8f8 20px);
+    border: 1px dotted silver;
+    height: 400px;
+    padding: 14px;
+}

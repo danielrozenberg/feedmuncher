@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block head_title %} — {% blocktrans %}updating feed {{ munched_feed }}{% endblocktrans %}{% endblock %}
+
+{% block header_title %} — {% blocktrans %}updating feed {{ munched_feed }}{% endblocktrans %}{% endblock %}
+
+{% block content %}
+    <p class="col-xs-12 alert alert-info">
+        <i class="fa fa-spin fa-cog "></i>
+        {% blocktrans %}Please wait while the feed {{ munched_feed }} is being munched…{% endblocktrans %}
+    </p>
+{% endblock %}
+
+{% block body_end %}
+<input type="hidden" id="real_update_url" value="{% url 'really_update_feed' slug=munched_feed.slug %}">
+<script src="{% static 'scripts/update.js' %}"></script>
+{% endblock %}
