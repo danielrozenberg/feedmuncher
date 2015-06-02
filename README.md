@@ -18,7 +18,7 @@ Deploying Feed Muncher
 2. Copy `feed_muncher/example_settings.py` to `feed_muncher/settings.py` and modify settings to fit your environment.
 See [Django settings](https://docs.djangoproject.com/en/1.8/topics/settings/) for instructions.
 3. Activate the virtualenv (usually `source /path/to/venv/bin/activate`), then create the database and first user by
-running the command `python manage.py migrate`.
+running the command `python manage.py migrate` and `python manage.py createsuperuser`.
 4. Run the app on your server using [whichever method works
 best](https://docs.djangoproject.com/en/1.8/howto/deployment/) for your case. DreamHost has a [simple
 tutorial](http://wiki.dreamhost.com/Django) for shared hosting.
