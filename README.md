@@ -22,6 +22,11 @@ running the command `python manage.py migrate` and `python manage.py createsuper
 4. Run the app on your server using [whichever method works
 best](https://docs.djangoproject.com/en/1.8/howto/deployment/) for your case. DreamHost has a [simple
 tutorial](http://wiki.dreamhost.com/Django) for shared hosting.
+5. Set a cron job to `curl http://your.deployment.example.com/feed/mass-update` (or `wget` or any other fetching tool)
+to automatically update the feeds. The following variables inside `settings.py` affect the mass updater:
+ * `FEED_MUNCHER_UPDATE_INTERVAL` = A feed will only be updated if this number of seconds have passed since it was
+ last updated
+ * `FEED_MUNCHER_MAX_FEEDS` = Up to this number of feeds will be updated in one execution of `/feed/mass-update`.
 
 
 Deploying locally
