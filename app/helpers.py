@@ -89,7 +89,7 @@ def _convert_feed(input_feed, current_url):
 
 
 def _add_converted_item(output_feed, input_entry, raw_html, extract_css_selector):
-    html = BeautifulSoup(raw_html)
+    html = BeautifulSoup(raw_html, 'html.parser')
     description = u''
     for sub_selector in extract_css_selector.split(','):
         selections = html.select(sub_selector)
