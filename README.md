@@ -13,14 +13,14 @@ Some knowledge of [Regular Expressions](http://regexone.com/) and [CSS selectors
 Deploying Feed Muncher
 ----------------------
 
-1. [Create a virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/) with Python 2.7.x and
+1. [Create a virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/) with Python 3.6.x and
 `requirements.txt` (or install the requirements in your own environment)
 2. Copy `feed_muncher/example_settings.py` to `feed_muncher/settings.py` and modify settings to fit your environment.
-See [Django settings](https://docs.djangoproject.com/en/1.8/topics/settings/) for instructions.
+See [Django settings](https://docs.djangoproject.com/en/2.0/topics/settings/) for instructions.
 3. Activate the virtualenv (usually `source /path/to/venv/bin/activate`), then create the database and first user by
 running the command `python manage.py migrate` and `python manage.py createsuperuser`.
 4. Run the app on your server using [whichever method works
-best](https://docs.djangoproject.com/en/1.8/howto/deployment/) for your case. DreamHost has a [simple
+best](https://docs.djangoproject.com/en/2.0/howto/deployment/) for your case. DreamHost has a [simple
 tutorial](http://wiki.dreamhost.com/Django) for shared hosting.
 5. Set a cron job to `curl http://your.deployment.example.com/feed/mass-update` (or `wget` or any other fetching tool)
 to automatically update the feeds. The following variables inside `settings.py` affect the mass updater:
