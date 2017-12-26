@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.db import models, migrations
 
 
@@ -18,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='munchedfeedcache',
             name='munched_feed',
-            field=models.OneToOneField(primary_key=True, serialize=False, to='app.MunchedFeed'),
+            field=models.OneToOneField(primary_key=True, serialize=False, to='app.MunchedFeed', on_delete=models.CASCADE),
             preserve_default=True,
         ),
     ]

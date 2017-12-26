@@ -8,7 +8,7 @@ from django.utils.translation import ugettext as _
 
 
 class MunchedFeed(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     slug = models.SlugField()
 
     source_url = models.URLField()
@@ -24,7 +24,7 @@ class MunchedFeed(models.Model):
     class Meta:
         unique_together = ('user', 'slug')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.slug
 
     def build_absolute_uri(self):
@@ -37,6 +37,6 @@ class MunchedFeedForm(forms.ModelForm):
         fields = ['user', 'slug', 'source_url', 'extract_css_selector', 'title_regex', 'content_regex', 'ignore_bozo']
         error_messages = {
             NON_FIELD_ERRORS: {
-                'unique_together': _(u"You already have a munched feed with that name.")
+                'unique_together': _('You already have a munched feed with that name.')
             }
         }

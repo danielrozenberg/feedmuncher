@@ -14,7 +14,7 @@ import requests
 def munch_feed(munched_feed_url, source_feed_url, extract_css_selector, title_regex, content_regex, ignore_bozo):
     source_feed = feedparser.parse(source_feed_url)
     if source_feed.bozo and not ignore_bozo:
-        raise Exception(_(u"Origin feed %(source_url)s is malformed. Error found: %(exception)r." % {
+        raise Exception(_('Origin feed %(source_url)s is malformed. Error found: %(exception)r.' % {
             'source_url': source_feed_url,
             'exception': source_feed.bozo_exception
         }))
@@ -33,15 +33,15 @@ def munch_feed(munched_feed_url, source_feed_url, extract_css_selector, title_re
 
 
 def generate_failed_feed(e, munched_feed_url, source_feed_url, now):
-    failed_feed = Atom1Feed(title=_(u"Error in Feed Muncher"),
+    failed_feed = Atom1Feed(title=_('Error in Feed Muncher'),
                             link=munched_feed_url,
-                            description=_(u"There was an error while munching this feed."),
-                            subtitle=_(u"Feed Muncher"))
-    failed_feed.add_item(title=u"Error in Feed Muncher",
+                            description=_('There was an error while munching this feed.'),
+                            subtitle=_('Feed Muncher'))
+    failed_feed.add_item(title='Error in Feed Muncher',
                          link=munched_feed_url,
-                         description=_(u"There was an error processing your feed in Feed Muncher. "
-                                       u"An exception was thrown. %(exception)r" % {'exception': e}),
-                         author_name=_(u"Feed Muncher"),
+                         description=_('There was an error processing your feed in Feed Muncher. '
+                                       'An exception was thrown. %(exception)r' % {'exception': e}),
+                         author_name=_('Feed Muncher'),
                          pubdate=now,
                          unique_id=source_feed_url + ':error',
                          unique_id_is_permalink=False,
@@ -50,7 +50,7 @@ def generate_failed_feed(e, munched_feed_url, source_feed_url, now):
 
 
 def render_feed_preview(feed):
-    response = HttpResponse(content_type=feed.mime_type)
+    response = HttpResponse(content_type=feed.content_type)
     feed.write(response, 'utf-8')
     return response
 
@@ -64,7 +64,7 @@ def update_munched_feed(munched_feed):
 
         munched_feed.last_updated = now
         munched_feed.cache = output_feed.writeString('utf-8')
-        munched_feed.cache_mime_type = output_feed.mime_type
+        munched_feed.cache_mime_type = output_feed.content_type
         munched_feed.save()
         return True
 
@@ -73,7 +73,7 @@ def update_munched_feed(munched_feed):
 
         munched_feed.last_updated = now
         munched_feed.cache = failed_feed.writeString('utf-8')
-        munched_feed.cache_mime_type = failed_feed.mime_type
+        munched_feed.cache_mime_type = failed_feed.content_type
         return False
 
 
@@ -83,18 +83,18 @@ def _convert_feed(input_feed, current_url):
                      link=input_feed['link'],
                      description=_try_extract(input_feed['description']) or _try_extract(input_feed['subtitle']),
                      language=_try_extract(input_feed, 'language'),
-                     subtitle=(_try_extract(input_feed, 'subtitle') + _(u" // via Feed Muncher")).strip(),
+                     subtitle=(_try_extract(input_feed, 'subtitle') + _(' // via Feed Muncher')).strip(),
                      feed_url=current_url,
                      feed_copyright=_try_extract(input_feed, 'rights'))
 
 
 def _add_converted_item(output_feed, input_entry, raw_html, extract_css_selector):
     html = BeautifulSoup(raw_html, 'html.parser')
-    description = u''
+    description = ''
     for sub_selector in extract_css_selector.split(','):
         selections = html.select(sub_selector)
         if selections:
-            description += u'<div>%s</div>' % u'</div> <div>'.join((unicode(selection) for selection in selections))
+            description += '<div>%s</div>' % '</div> <div>'.join((str(selection) for selection in selections))
     if not description:
         description = _try_extract(input_entry, 'summary') or _try_extract(input_entry, 'description')
     unique_id = _try_extract(input_entry, 'id') or input_entry['link']

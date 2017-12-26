@@ -100,11 +100,11 @@ def really_update_feed(request, slug):
 
     if update_munched_feed(munched_feed):
         messages.success(request,
-                         _(u"The feed %(munched_feed)s was successfully updated.") % {'munched_feed': munched_feed})
+                         _('The feed %(munched_feed)s was successfully updated.') % {'munched_feed': munched_feed})
     else:
         messages.error(request,
-                       _(u"There was an error updating the feed %(munched_feed)s. "
-                         u"<a href=\"%(edit_url)s\">Edit</a> this feed to fix the error.") % {
+                       _('There was an error updating the feed %(munched_feed)s. '
+                         '<a href="%(edit_url)s">Edit</a> this feed to fix the error.') % {
                            'munched_feed': munched_feed, 'edit_url': resolve_url('edit_feed', slug=munched_feed.slug)})
 
     return redirect('list_feeds')
@@ -116,7 +116,7 @@ def delete_feed(request, slug):
 
     if request.method == 'POST':
         munched_feed.delete()
-        messages.info(request, _(u"Deleted the feed %(munched_feed)s.") % {'munched_feed': munched_feed})
+        messages.info(request, _('Deleted the feed %(munched_feed)s.') % {'munched_feed': munched_feed})
         return redirect('list_feeds')
 
     return render(request, 'app/delete.html', context={
@@ -134,7 +134,7 @@ def serve_feed(request, user, slug):
         return response
     else:
         now = timezone.now()
-        failed_feed = generate_failed_feed(Exception(_(u"This feed has not been munched yet!")),
+        failed_feed = generate_failed_feed(Exception(_('This feed has not been munched yet!')),
                                            munched_feed.build_absolute_uri(), munched_feed.source_url, now)
         return render_feed_preview(failed_feed)
 
@@ -150,4 +150,4 @@ def mass_update(request):
         update_munched_feed(munched_feed)
 
     return HttpResponse(content_type='text/plain',
-                        content=_(u"Updated %(count)d feeds." % {'count': len(munched_feeds)}))
+                        content=_('Updated %(count)d feeds.' % {'count': len(munched_feeds)}))

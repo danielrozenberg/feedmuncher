@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.db import models, migrations
 from django.conf import settings
 
@@ -21,7 +19,7 @@ class Migration(migrations.Migration):
                 ('extract_css_selector', models.CharField(max_length=255)),
                 ('title_regex', models.CharField(max_length=255)),
                 ('content_regex', models.CharField(max_length=255)),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -33,7 +31,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('last_updated', models.DateTimeField(auto_now=True)),
                 ('cache', models.TextField()),
-                ('munched_feed', models.ForeignKey(to='app.MunchedFeed')),
+                ('munched_feed', models.ForeignKey(to='app.MunchedFeed', on_delete=models.CASCADE)),
             ],
             options={
             },
