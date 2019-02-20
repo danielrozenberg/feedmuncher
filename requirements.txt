@@ -1,5 +1,5 @@
 beautifulsoup4==4.7.1
-Django==2.1.5
+Django==2.1.7
 django-widget-tweaks==1.4.3
 feedparser==5.2.1
 requests==2.21.0
