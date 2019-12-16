@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404, resolve_url
-from django.shortcuts import render_to_response
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 
@@ -89,7 +88,7 @@ def preview_feed(request):
 def update_feed(request, slug):
     munched_feed = get_object_or_404(MunchedFeed, user=request.user, slug=slug)
 
-    return render_to_response('app/update.html', context={
+    return render(request, 'app/update.html', context={
         'munched_feed': munched_feed
     })
 
