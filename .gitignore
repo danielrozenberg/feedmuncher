@@ -1,4 +1,5 @@
 *.pyc
 .idea
 *.sqlite3
+.python-version
 feed_muncher/settings.py
