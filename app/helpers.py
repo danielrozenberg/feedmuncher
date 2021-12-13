@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from django.http import HttpResponse
 from django.utils import timezone
 from django.utils.feedgenerator import Atom1Feed
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 import feedparser
 import requests
 

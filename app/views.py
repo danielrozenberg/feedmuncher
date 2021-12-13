@@ -9,7 +9,7 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404, resolve_url
 from django.utils import timezone
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from app.helpers import generate_failed_feed, render_feed_preview, munch_feed, update_munched_feed
 from app.models import MunchedFeed, MunchedFeedForm

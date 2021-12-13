@@ -4,7 +4,7 @@ from django.core.exceptions import NON_FIELD_ERRORS
 from django.db import models
 from django.forms import HiddenInput
 from django.shortcuts import resolve_url
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 
 class MunchedFeed(models.Model):
