@@ -1,4 +1,4 @@
-beautifulsoup4==4.10.0
+beautifulsoup4==4.11.1
 Django==4.0.3
 django-widget-tweaks==1.4.12
 feedparser==6.0.8
